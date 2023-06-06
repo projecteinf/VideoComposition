@@ -9,6 +9,11 @@ rm packages-microsoft-prod.deb
 apt-get update && \
   apt-get install -y dotnet-sdk-7.0
 
-Creació app: https://learn.microsoft.com/en-us/dotnet/standard/get-started#tutorials-for-creating-apps
+# Creació aplicació
+Font: https://learn.microsoft.com/en-us/dotnet/standard/get-started#tutorials-for-creating-apps
+
+
+dotnet new console --framework net7.0   # Aplicació de consola
+
 
 # VideoComposition
