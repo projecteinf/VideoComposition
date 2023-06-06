@@ -7,9 +7,7 @@ internal class Program
     {
         Console.WriteLine("Hello, World!");
         List<model.entitats.File> files = GetFitxers(".");
-        EscriureLlista(files);
-
-        
+        EscriureLlista(files);        
     }
     private static List<model.entitats.File> GetFitxers(string path)
     {
