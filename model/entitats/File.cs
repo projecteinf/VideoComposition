@@ -6,6 +6,13 @@ namespace model.entitats
         private long size;
         private float duration;
         
+        public File(string name, string path, long size, float duration) {
+            this.name = name;
+            this.path = path;
+            this.size = size;
+            this.duration = duration;
+        }
+
         public string Name { get => name; set => name = value; }
         public string Path { get => path; set => path = value; }
         public long Size { get => size; set => size = value; }

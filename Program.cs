@@ -1,10 +1,13 @@
 ﻿using System;
 using model.entitats;
 
-Console.WriteLine("Hello, World!");
-model.entitats.File file = new model.entitats.File();
-file.Name = "File1";
-file.Path = "/home/user";
-file.Size = 1024;
-file.Duration = 3.5f;
-Console.WriteLine(file);
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Console.WriteLine("Hello, World!");
+        List<model.entitats.File> files = new List<model.entitats.File>();
+        files.Add(new model.entitats.File("file1", "path1", 100, 1.1f));
+        Console.WriteLine(files[0].ToString());
+    }
+}
