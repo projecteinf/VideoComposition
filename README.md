@@ -18,5 +18,9 @@ dotnet new console --framework net7.0   # Aplicació de consola
 
 ![image](https://github.com/projecteinf/VideoComposition/assets/96139692/8b82e9fc-ccda-42be-b914-b55f8b6f18da)
 
+# Execució programa
+
+![image](https://github.com/projecteinf/VideoComposition/assets/96139692/264b7074-ff05-4ee1-bd5d-25746cbd0f37)
+
 
 # VideoComposition
