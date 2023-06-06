@@ -16,4 +16,7 @@ dotnet new console --framework net7.0   # Aplicació de consola
 
 # Creació .gitignore
 
+![image](https://github.com/projecteinf/VideoComposition/assets/96139692/8b82e9fc-ccda-42be-b914-b55f8b6f18da)
+
+
 # VideoComposition
