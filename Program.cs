@@ -6,11 +6,17 @@ internal class Program
     private static void Main(string[] args)
     {
         Console.WriteLine("Hello, World!");
-        List<model.entitats.File> files = new List<model.entitats.File>();
-        files.Add(new model.entitats.File("file1", "path1", 100, 1.1f));
-        model.entitats.Directory directory = new model.entitats.Directory(".");
-        foreach (model.entitats.File file in directory.getFiles()) Console.WriteLine(file.ToString());
+        List<model.entitats.File> files = GetFitxers(".");
+        EscriureLlista(files);
+
         
-        
+    }
+    private static List<model.entitats.File> GetFitxers(string path)
+    {
+        return new model.entitats.Directory(path).getFiles();
+    }
+    private static void EscriureLlista(List<model.entitats.File> files)
+    {
+        foreach (model.entitats.File file in files) Console.WriteLine(file.ToString());
     }
 }

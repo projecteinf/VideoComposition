@@ -5,15 +5,17 @@ namespace model.entitats
         private List<model.entitats.File> Files;
 
         public Directory(string path) { 
-            Files = new List<model.entitats.File>(); 
-            setFiles(path);
+            this.Files = setFiles(path);
         }
-        private void setFiles(string path)
+        private List<model.entitats.File> setFiles(string path)
         {
+            List<model.entitats.File> files = new List<model.entitats.File>();
+
             String[] filesDirectory = System.IO.Directory.GetFiles(path);
             foreach (String file in filesDirectory) {
-                Files.Add(new model.entitats.File(file, file, 100, 1.1f));
+                files.Add(new model.entitats.File(file, file, 100, 1.1f));
             }
+            return files;
         }
 
         public List<model.entitats.File> getFiles() { return Files; }
