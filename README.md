@@ -12,8 +12,8 @@ apt-get update && \
 # Creació aplicació
 Font: https://learn.microsoft.com/en-us/dotnet/standard/get-started#tutorials-for-creating-apps
 
-
 dotnet new console --framework net7.0   # Aplicació de consola
 
+# Creació .gitignore
 
 # VideoComposition
