@@ -13,7 +13,7 @@ namespace model.entitats
 
             String[] filesDirectory = System.IO.Directory.GetFiles(path);
             foreach (String file in filesDirectory) {
-                files.Add(new model.entitats.File(file, file, 100, 1.1f));
+                files.Add(new model.entitats.File(file, file, new FileInfo(file).Length));
             }
             return files;
         }
