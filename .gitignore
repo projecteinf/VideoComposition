@@ -414,3 +414,7 @@ FodyWeavers.xsd
 .nfs*
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,linux
+
+# Modificat .gitignore - video
+
+videos/
