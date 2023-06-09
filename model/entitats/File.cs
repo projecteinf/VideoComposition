@@ -7,6 +7,7 @@ namespace model.entitats
         private string path;
         private long size;
         private Property property;
+        private long nbFrames;
         
         public File(string name, string path, long size) {
             this.property = new Property();
@@ -17,17 +18,36 @@ namespace model.entitats
         
         public void getData()
         {
-            ProcessStartInfo startInfo = prepararProcess();
+            ProcessStartInfo startInfo = ReadMetaData();
             string dades = executarProcess(startInfo);
             string[] lines = dades.Split('\n');
-            //Console.WriteLine($"FILE: {Name}");
+            
             foreach (string line in lines) {
                 //Console.WriteLine(line);
                 string wLine = line.Trim();
                 if (wLine.Contains("Duration:")) this.property.Duration = getDuration(wLine);
                 if (wLine.Contains("creation_time")) this.property.CreationTime = getCreationTime(wLine);
             } 
+            this.nbFrames = this.getNbFrames();
         }
+
+        private long getNbFrames()
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "ffprobe";
+            startInfo.Arguments = $" -v error -select_streams v:0 -show_entries stream=nb_frames -of default=noprint_wrappers=1:nokey=1 {this.Path}";
+            startInfo.RedirectStandardError = true;
+            startInfo.RedirectStandardOutput = true;
+            startInfo.UseShellExecute = false;
+            Process process = new Process();
+            process.StartInfo = startInfo;
+            process.Start();
+            //string dades = process.StandardError.ReadToEnd();
+            string dades2 = process.StandardOutput.ReadToEnd();
+            return long.Parse(dades2);
+            //return long.Parse(this.executarProcess(startInfo));
+        }
+
         private DateTime getCreationTime(string line)
         {
             string[] words = line.Split(' ');
@@ -42,15 +62,10 @@ namespace model.entitats
 
         public void concat(File file)
         {
-            ProcessStartInfo startInfo = prepararConcat(file);
+            ProcessStartInfo startInfo = Concat(file);
             executarProcess(startInfo);
         }
 
-        private ProcessStartInfo prepararConcat(File file)
-        {
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = "ffmpeg";
-        // https://trac.ffmpeg.org/wiki/Concatenate
 /*
     TOTS ELS VIDEOS EL MATEIX CODEC
 
@@ -71,6 +86,12 @@ namespace model.entitats
         -map "[outv]" -map "[outa]" merged.mp4
 
 */
+ 
+        private ProcessStartInfo Concat(File file)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "ffmpeg";
+        // https://trac.ffmpeg.org/wiki/Concatenate
             startInfo.Arguments = $" -i  \"{this.Path}\"  "; // 1r video
             startInfo.Arguments += $" -i  \"{file.Path}\"  "; // 2n video
             // Console.WriteLine(startInfo.Arguments);
@@ -83,7 +104,7 @@ namespace model.entitats
             return startInfo;
         }
 
-        private ProcessStartInfo prepararProcess()
+        private ProcessStartInfo ReadMetaData()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffmpeg";
@@ -112,5 +133,7 @@ namespace model.entitats
         public string Name { get => name; set => name = value; }
         public string Path { get => path; set => path = value; }
         public long Size { get => size; set => size = value; }
+
+        public long NbFrames { get => size; set => size = value; }
     }
 }

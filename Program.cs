@@ -13,7 +13,7 @@ internal class Program
         Console.WriteLine($"Temps: {end-start}");
         EscriureLlista(files);
         Console.WriteLine("Concatenar");
-        if (files.Count > 1) files[0].concat(files[1]);       
+        // if (files.Count > 1) files[0].concat(files[1]);       
     }
     private static List<model.entitats.File> GetFitxers(string path)
     {
