@@ -1,16 +1,3 @@
-string imagesPath = @"C:\path\to\images\";
-string videoPath = @"C:\path\to\output\video.mp4";
-
-// Run ffmpeg to create video from images
-ffmpeg = new Process();
-ffmpeg.StartInfo.FileName = "ffmpeg";
-ffmpeg.StartInfo.Arguments = "-y -framerate 30 -i " + imagesPath + "%d.png -c:v libx264 -r 30 -pix_fmt yuv420p " + videoPath;
-ffmpeg.StartInfo.UseShellExecute = false;
-ffmpeg.StartInfo.RedirectStandardOutput = true;
-ffmpeg.Start();
-ffmpeg.WaitForExit();
-
-
 # Instruccions instal·lació - Linux (Debian 11)
 
 Font: https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-11
