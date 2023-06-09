@@ -8,9 +8,9 @@ internal class Program
         Console.WriteLine("Hello, World!");
         List<model.entitats.File> files = GetFitxers("./videos");
         GetDadesFitxers(files); 
-        files[0].GetFramesData();
+        
         EscriureLlista(files);
-        GetFrames(files);
+        
         //if (files.Count > 1) files[0].Concatenate(files[1]);       
     }
 

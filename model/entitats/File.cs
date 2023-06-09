@@ -25,6 +25,7 @@ namespace model.entitats
             Process process = ExecutarProcess(startInfo);
             string dades = process.StandardError.ReadToEnd();
             this.SetDadesFromText(dades);
+            this.GetFramesData();
         }
 
         public void Concatenate(File file)
@@ -178,7 +179,14 @@ namespace model.entitats
             return words[1]; 
         }
 
-        public override string ToString() { return $"File: {Name} {Path} \n Size: {Size} \n Properties: {property.ToString()}";  }
+        public override string ToString()
+        {
+            string frameInfo = "";
+            foreach(Frame frame in this.frames) {
+                frameInfo += frame.ToString()+"\n";
+            }
+            return $"File: {Name} {Path} \n Size: {Size} \n Properties: {property.ToString()}\n{frameInfo}";
+        }
 
         // Getters i setters
         public string Name { get => name; set => name = value; }
