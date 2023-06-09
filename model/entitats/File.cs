@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace model.entitats
 {
@@ -7,10 +9,12 @@ namespace model.entitats
         private string path;
         private long size;
         private Property property;
+        private List<Frame> frames; 
         
         
         public File(string name, string path, long size) {
             this.property = new Property();
+            this.frames = new List<Frame>();
             this.name = name;
             this.path = path;
             this.size = size;
@@ -30,6 +34,32 @@ namespace model.entitats
             Process process = ExecutarProcess(startInfo);
             process.StandardOutput.ReadToEnd();
         }
+
+        public void GetFramesData() {
+
+            ProcessStartInfo startInfo = this.GetFramesDataJSON();
+            Process process = ExecutarProcess(startInfo);
+            JObject dades = JsonConvert.DeserializeObject<JObject>(process.StandardOutput.ReadToEnd());
+            JArray frames = (JArray) dades["frames"];
+        }
+
+        private ProcessStartInfo GetFramesDataJSON()
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "ffprobe";
+            startInfo.Arguments = $"-v error -select_streams v:0 -show_entries frame=pkt_pts_time,pict_type -of json {this.Path}";
+            startInfo.RedirectStandardOutput = true;
+            startInfo.UseShellExecute = false;
+            return startInfo;
+        }
+
+
+        public void GetFrames() {
+            ProcessStartInfo startInfo = this.GetFramesFile();
+            Process process = ExecutarProcess(startInfo);
+            process.StandardOutput.ReadToEnd();
+        }
+
         private void SetDadesFromText(string dades)
         {
             string[] lines = dades.Split('\n');
@@ -98,6 +128,17 @@ namespace model.entitats
             startInfo.FileName = "ffmpeg";
             startInfo.Arguments = $"-i {this.Path} -f null -";
             startInfo.RedirectStandardError = true;
+            startInfo.UseShellExecute = false;
+            return startInfo;
+        }
+        // ffmpeg -i videos/merged.mp4 -ss 00:00:01.000 -vframes 1 image.jpg
+
+        private ProcessStartInfo GetFramesFile()
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "ffmpeg";
+            startInfo.Arguments = $"-i {this.Path} -ss 00:00:01.000 -vframes 1 ./images/frame1.jpg";
+            startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             return startInfo;
         }
