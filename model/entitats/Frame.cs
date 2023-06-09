@@ -20,5 +20,8 @@ namespace model.entitats {
             this.position = position;
         }
         
+        public override string ToString() {
+            return "Frame: " + image + " " + position;
+        }
     }
 }

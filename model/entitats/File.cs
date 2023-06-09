@@ -1,6 +1,5 @@
 using System.Diagnostics;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+
 
 namespace model.entitats
 {
@@ -43,7 +42,8 @@ namespace model.entitats
             string[] frames = dades.Split("[FRAME]");
             foreach (string frame in frames) {
                 if (frame != "") {
-                    this.frames.Add(new Frame(float.Parse(frame.Substring(14,8))));
+                    string position = frame.Substring(14,8);
+                    this.frames.Add(new Frame($"{position}.jpg", float.Parse(position)));
                 } 
             }
         }
