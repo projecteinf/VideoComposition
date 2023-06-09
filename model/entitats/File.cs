@@ -60,7 +60,8 @@ namespace model.entitats
     file /home/miquel/Projectes/Video/videos/pexels-life-on-super-3209971-1920x1080-18fps.mp4
 */
 
-            startInfo.Arguments = $"-i \"concat:{this.Path}|{file.Path}\"  ./videos/merged.mp4";
+            // startInfo.Arguments = $"-i \"concat:{this.Path}|{file.Path}\"  ./videos/merged.mp4";
+            startInfo.Arguments = $"-f concat -safe 0 -i ./videos/myList.txt -c copy ./videos/merged.mp4";
             startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
