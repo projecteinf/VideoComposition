@@ -33,7 +33,10 @@ namespace model.entitats {
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffmpeg";
-            startInfo.Arguments = $" -y -framerate 20 -i ./images/reverse/%d.jpg -c:v libx264 -r 20 -pix_fmt yuv420p ./videos/reverse.mp4";
+            // Versió ràpida
+            startInfo.Arguments = $" -y -framerate 60 -i ./images/reverse/%d.jpg -c:v libx264 -r 60 -pix_fmt yuv420p ./videos/reverse.mp4";
+            // Versió lenta
+            // startInfo.Arguments = $" -y -framerate 10 -i ./images/reverse/%d.jpg -c:v libx264 -r 10 -pix_fmt yuv420p ./videos/reverse.mp4";
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             return startInfo;
