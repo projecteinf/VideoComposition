@@ -64,10 +64,14 @@ namespace model.entitats
         }
 
 
-        public void GetFrames() {
-            ProcessStartInfo startInfo = this.GetFramesFile();
-            Process process = ExecutarProcess(startInfo);
-            process.StandardOutput.ReadToEnd();
+        public void GetImatges() {
+            long framenb = 0;
+            foreach (Frame frame in this.frames) {
+                ProcessStartInfo startInfo = this.GetFramesFile(frame, ++framenb);
+                Process process = ExecutarProcess(startInfo);
+                process.StandardOutput.ReadToEnd();
+            }
+            
         }
 
         private void SetDadesFromText(string dades)
@@ -83,7 +87,7 @@ namespace model.entitats
             this.property.NbFrames = GetNbFrames();
             
         }
-        private long GetNbFrames()
+        public long GetNbFrames()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffprobe";
@@ -143,11 +147,11 @@ namespace model.entitats
         }
         // ffmpeg -i videos/merged.mp4 -ss 00:00:01.000 -vframes 1 image.jpg
 
-        private ProcessStartInfo GetFramesFile()
+        private ProcessStartInfo GetFramesFile(Frame frame, long number)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffmpeg";
-            startInfo.Arguments = $"-i {this.Path} -ss 00:00:01.000 -vframes 1 ./images/frame1.jpg";
+            startInfo.Arguments = $"-i {this.Path} -ss 00:00:{frame.GetPosition()} -vframes {number} ./images/{number}.jpg";
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             return startInfo;
@@ -188,6 +192,7 @@ namespace model.entitats
             return $"File: {Name} {Path} \n Size: {Size} \n Properties: {property.ToString()}\n{frameInfo}";
         }
 
+        
         // Getters i setters
         public string Name { get => name; set => name = value; }
         public string Path { get => path; set => path = value; }

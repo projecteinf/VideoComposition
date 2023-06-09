@@ -5,18 +5,20 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        Movie movie = new Movie("./videos");
+        
+        /* Console.WriteLine("Hello, World!");
         List<model.entitats.File> files = GetFitxers("./videos");
         GetDadesFitxers(files); 
-        
+        files[0].GetImatges();
         EscriureLlista(files);
         
-        //if (files.Count > 1) files[0].Concatenate(files[1]);       
+        //if (files.Count > 1) files[0].Concatenate(files[1]);     */   
     }
 
     private static void GetFrames(List<model.entitats.File> files)
     {
-        files[0].GetFrames();
+        files[0].GetImatges();
     }
 
     private static List<model.entitats.File> GetFitxers(string path)
