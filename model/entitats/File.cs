@@ -36,18 +36,27 @@ namespace model.entitats
         }
 
         public void GetFramesData() {
-
+            
             ProcessStartInfo startInfo = this.GetFramesDataJSON();
             Process process = ExecutarProcess(startInfo);
-            JObject dades = JsonConvert.DeserializeObject<JObject>(process.StandardOutput.ReadToEnd());
-            JArray frames = (JArray) dades["frames"];
+            string dades=process.StandardOutput.ReadToEnd();
+            string[] frames = dades.Split("[FRAME]");
+            foreach (string frame in frames) {
+                if (frame != "") {
+                    this.frames.Add(new Frame(float.Parse(frame.Substring(14,8))));
+                } 
+            }
         }
+/*
 
+"[FRAME]\npkt_pts_time=0.000000\npict_type=I\n[/FRAME]\n[FRAME]\npkt_pts_time=0.055556\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.111111\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.166667\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.222222\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=0.277778\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.333333\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.388889\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.444444\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=0.500000\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.555556\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.611111\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.666667\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=0.722222\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.777778\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.833333\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=0.888889\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=0.944444\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.000000\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.055556\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=1.111111\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.166667\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.222222\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.277778\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=1.333333\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.388889\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.444444\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.500000\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=1.555556\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.611111\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.666667\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.722222\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=1.777778\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.833333\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.888889\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=1.944444\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=2.000000\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.055556\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.111111\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.166667\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=2.222222\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.277778\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.333333\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.388889\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=2.444444\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.500000\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.555556\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.611111\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=2.666667\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.722222\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.777778\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.833333\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=2.888889\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=2.944444\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.000000\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=3.055556\npict_type=I\n[/FRAME]\n[FRAME]\npkt_pts_time=3.111111\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.166667\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.222222\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.277778\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=3.333333\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.388889\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.444444\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.500000\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=3.555556\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.611111\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.666667\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.722222\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=3.777778\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.833333\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.888889\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=3.944444\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=4.000000\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=4.055556\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=4.111111\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=4.166667\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=4.222222\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=4.277778\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=4.333333\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=4.388889\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=4.444444\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=4.500000\npict_type=B\n[/FRAME]\n[FRAME]\npkt_pts_time=4.555556\npict_type=P\n[/FRAME]\n[FRAME]\npkt_pts_time=4.611111\npict_type=P\n[/FRAME]\n"
+
+*/
         private ProcessStartInfo GetFramesDataJSON()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffprobe";
-            startInfo.Arguments = $"-v error -select_streams v:0 -show_entries frame=pkt_pts_time,pict_type -of json {this.Path}";
+            startInfo.Arguments = $"-v error -select_streams v:0 -show_entries frame=pkt_pts_time,pict_type {this.Path}";
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             return startInfo;

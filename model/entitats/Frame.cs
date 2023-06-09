@@ -1,16 +1,24 @@
 namespace model.entitats {
     class Frame {
         private string image;
-        private TimeOnly position;
-        private long duration;
+        private float position;
+        private float duration;
 
-        public Frame(string image, TimeOnly position, long duration) {
+        public string GetImage() { return image; }
+        public float GetPosition() { return position; }
+        
+        public string SetImage(string image) { return this.image; }
+        public float SetPosition(float position) { return this.position; }
+        
+
+        public Frame(float position) {
+            this.position = position;
+        }
+
+        public Frame(string image, float position) {
             this.image = image;
             this.position = position;
-            this.duration = duration;
         }
-        public string Image { get => image; set => image = value; }
-        public TimeOnly Position { get => position; set => position = value; }
-        public long Duration { get => duration; set => duration = value; }
+        
     }
 }
