@@ -7,7 +7,7 @@ namespace model.entitats
         private string path;
         private long size;
         private Property property;
-        private long nbFrames;
+        
         
         public File(string name, string path, long size) {
             this.property = new Property();
@@ -16,56 +16,50 @@ namespace model.entitats
             this.size = size;
         }
         
-        public void getData()
+        public void GetData()
         {
             ProcessStartInfo startInfo = ReadMetaData();
-            string dades = executarProcess(startInfo);
+            Process process = ExecutarProcess(startInfo);
+            string dades = process.StandardError.ReadToEnd();
+            this.SetDadesFromText(dades);
+        }
+
+        public void Concatenate(File file)
+        {
+            ProcessStartInfo startInfo = this.Concat(file);
+            Process process = ExecutarProcess(startInfo);
+            process.StandardOutput.ReadToEnd();
+        }
+        private void SetDadesFromText(string dades)
+        {
             string[] lines = dades.Split('\n');
             
             foreach (string line in lines) {
-                //Console.WriteLine(line);
                 string wLine = line.Trim();
-                if (wLine.Contains("Duration:")) this.property.Duration = getDuration(wLine);
-                if (wLine.Contains("creation_time")) this.property.CreationTime = getCreationTime(wLine);
+                if (wLine.Contains("Duration:")) this.property.Duration = GetDuration(wLine);
+                if (wLine.Contains("creation_time")) this.property.CreationTime = GetCreationTime(wLine);
             } 
-            this.nbFrames = this.getNbFrames();
-        }
 
-        private long getNbFrames()
+            this.property.NbFrames = GetNbFrames();
+            
+        }
+        private long GetNbFrames()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffprobe";
             startInfo.Arguments = $" -v error -select_streams v:0 -show_entries stream=nb_frames -of default=noprint_wrappers=1:nokey=1 {this.Path}";
-            startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             Process process = new Process();
             process.StartInfo = startInfo;
             process.Start();
-            //string dades = process.StandardError.ReadToEnd();
-            string dades2 = process.StandardOutput.ReadToEnd();
-            return long.Parse(dades2);
-            //return long.Parse(this.executarProcess(startInfo));
-        }
-
-        private DateTime getCreationTime(string line)
-        {
-            string[] words = line.Split(' ');
-            return System.Convert.ToDateTime(words[4]);
-        }
-        private string getDuration(string line)
-        {
-            string[] words = line.Split(' ');
-            return words[1]; 
+            
+            string dades = process.StandardOutput.ReadToEnd();
+            return long.Parse(dades);
+            
         }
         
-
-        public void concat(File file)
-        {
-            ProcessStartInfo startInfo = Concat(file);
-            executarProcess(startInfo);
-        }
-
+        
 /*
     TOTS ELS VIDEOS EL MATEIX CODEC
 
@@ -87,46 +81,53 @@ namespace model.entitats
 
 */
  
-        private ProcessStartInfo Concat(File file)
+        private ProcessStartInfo Concat(File file)  // https://trac.ffmpeg.org/wiki/Concatenate
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffmpeg";
-        // https://trac.ffmpeg.org/wiki/Concatenate
-            startInfo.Arguments = $" -i  \"{this.Path}\"  "; // 1r video
-            startInfo.Arguments += $" -i  \"{file.Path}\"  "; // 2n video
-            // Console.WriteLine(startInfo.Arguments);
-            startInfo.Arguments += $" -filter_complex \"[0:v:0][1:v:0]"; // stream 1 i 2
-            startInfo.Arguments += $" concat=n=2:v=1[outv]\" "; // concat
-            startInfo.Arguments += $" -map \"[outv]\" ./videos/merged.mp4"; // output
+        
+            startInfo.Arguments = this.ConcatArgs(file.Path); // output
             startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             return startInfo;
         }
-
         private ProcessStartInfo ReadMetaData()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffmpeg";
             startInfo.Arguments = $"-i {this.Path} -f null -";
             startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             return startInfo;
         }
-        private string executarProcess(ProcessStartInfo startInfo)
+        private Process ExecutarProcess(ProcessStartInfo startInfo)
         {
             Process process = new Process();
             process.StartInfo = startInfo;
             process.Start();
-            string dades = process.StandardError.ReadToEnd();
-            string dades2 = process.StandardOutput.ReadToEnd();
-            Console.WriteLine(dades);
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine(dades2);
-            // process.WaitForExit();
-            return dades;
+            return process;
         }
+
+        private string ConcatArgs(string fileName) {
+            string args = $" -i  \"{this.Path}\"  "; // 1r video
+            args += $" -i  \"{fileName}\"  "; // 2n video
+            args += $" -filter_complex \"[0:v:0][1:v:0]"; // stream 1 i 2
+            args += $" concat=n=2:v=1[outv]\" "; // concat
+            args += $" -map \"[outv]\" ./videos/merged.mp4";
+            return args;
+        }
+        private DateTime GetCreationTime(string line)
+        {
+            string[] words = line.Split(' ');
+            return System.Convert.ToDateTime(words[4]);
+        }
+        private string GetDuration(string line)
+        {
+            string[] words = line.Split(' ');
+            return words[1]; 
+        }
+
         public override string ToString() { return $"File: {Name} {Path} \n Size: {Size} \n Properties: {property.ToString()}";  }
 
         // Getters i setters

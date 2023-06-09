@@ -7,17 +7,13 @@ internal class Program
     {
         Console.WriteLine("Hello, World!");
         List<model.entitats.File> files = GetFitxers("./videos");
-        DateTime start = DateTime.Now;
         GetDadesFitxers(files); 
-        DateTime end = DateTime.Now;
-        Console.WriteLine($"Temps: {end-start}");
         EscriureLlista(files);
-        Console.WriteLine("Concatenar");
-        // if (files.Count > 1) files[0].concat(files[1]);       
+        if (files.Count > 1) files[0].Concatenate(files[1]);       
     }
     private static List<model.entitats.File> GetFitxers(string path)
     {
-        return new model.entitats.Directory(path).getFiles();
+        return new model.entitats.Directory(path).GetFiles();
     }
     private static void EscriureLlista(List<model.entitats.File> files)
     {
@@ -37,7 +33,7 @@ internal class Program
         }
         foreach (Thread thread in threads) thread.Join(); // Espera a que tots els threads acabin 
         */
-        Parallel.ForEach(files, file => file.getData());
+        Parallel.ForEach(files, file => file.GetData());
         /* SOLUCIÓ CLÀSSICA - SENSE THREADS - SINCRONA
         foreach (model.entitats.File file in files)
         {

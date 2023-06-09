@@ -5,9 +5,9 @@ namespace model.entitats
         private List<model.entitats.File> Files;
 
         public Directory(string path) { 
-            this.Files = setFiles(path);
+            this.Files = SetFiles(path);
         }
-        private List<model.entitats.File> setFiles(string path)
+        private List<model.entitats.File> SetFiles(string path)
         {
             List<model.entitats.File> files = new List<model.entitats.File>();
 
@@ -18,6 +18,6 @@ namespace model.entitats
             return files;
         }
 
-        public List<model.entitats.File> getFiles() { return Files; }
+        public List<model.entitats.File> GetFiles() { return Files; }
     }
 }
