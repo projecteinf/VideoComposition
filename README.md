@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 # Instal·lació QT
 
   dotnet nuget add source https://www.myget.org/F/qmlnet/api/v3/index.json -n qmlnet
   dotnet add package Qml.Net
 
+=======
+>>>>>>> 5253fa564330ce7799a4c1aa3053c9eda36b66b0
 # Instruccions instal·lació - Linux (Debian 11)
 
 Font: https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-11
