@@ -43,7 +43,7 @@ namespace model.entitats
             string[] frames = dades.Split("[FRAME]");
             foreach (string frame in frames) {
                 if (frame != "") {
-                    string position = frame.Substring(14,8);
+                    string position = frame.Split("pts_time")[1].Substring(1,8);
                     this.frames.Add(new Frame($"{position}.jpg", float.Parse(position)));
                 } 
             }
@@ -57,7 +57,7 @@ namespace model.entitats
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffprobe";
-            startInfo.Arguments = $"-v error -select_streams v:0 -show_entries frame=pkt_pts_time,pict_type {this.Path}";
+            startInfo.Arguments = $"-v error -select_streams v:0 -show_frames {this.Path}";
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             return startInfo;
