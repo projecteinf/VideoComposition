@@ -1,19 +1,20 @@
-﻿using System.Diagnostics; // Es necessari per a poder utilitzar comandes de sistema
-using model.entitats;
+﻿using model.entitats;
+using interfaces.graphics;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        Movie movie = new Movie("./videos","Pelicula1");
-        
+        Player player = new Player("Player");
+
+        /*  Movie movie = new Movie("./videos","Pelicula1");
         /* Console.WriteLine("Hello, World!");
         List<model.entitats.File> files = GetFitxers("./videos");
         GetDadesFitxers(files); 
         files[0].GetImatges();
         EscriureLlista(files);
         
-        //if (files.Count > 1) files[0].Concatenate(files[1]);     */   
+        //if (files.Count > 1) files[0].Concatenate(files[1]);     */    
     }
 
     private static void GetFrames(List<model.entitats.File> files)

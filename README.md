@@ -1,3 +1,9 @@
+# Instal·lació GTKSharp
+
+https://ksvi.mff.cuni.cz/~dingle/2022-3/prog_2/gtk_introduction.html
+
+dotnet add package GtkShar
+
 # Instruccions instal·lació - Linux (Debian 11)
 
 Font: https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian#debian-11
