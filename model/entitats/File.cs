@@ -64,10 +64,12 @@ namespace model.entitats
         }
 
 
-        public void GetImatges() {
+        public void GetImatges(string film) {
             long framenb = 0;
+
+            Directory.CreateDirectory($"./images/{film}");
             foreach (Frame frame in this.frames) {
-                ProcessStartInfo startInfo = this.GetFramesFile(frame, ++framenb);
+                ProcessStartInfo startInfo = this.GetFramesFile(frame, ++framenb, film);
                 Process process = ExecutarProcess(startInfo);
                 process.StandardOutput.ReadToEnd();
             }
@@ -147,11 +149,11 @@ namespace model.entitats
         }
         // ffmpeg -i videos/merged.mp4 -ss 00:00:01.000 -vframes 1 image.jpg
 
-        private ProcessStartInfo GetFramesFile(Frame frame, long number)
+        private ProcessStartInfo GetFramesFile(Frame frame, long number, string folder)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "ffmpeg";
-            startInfo.Arguments = $"-i {this.Path} -ss 00:00:{frame.GetPosition()} -vframes {number} ./images/{number}.jpg";
+            startInfo.Arguments = $"-i {this.Path} -ss 00:00:{frame.GetPosition()} -vframes {number} ./images/{folder}/{number}.jpg";
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             return startInfo;

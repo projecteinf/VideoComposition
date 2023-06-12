@@ -5,7 +5,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Movie movie = new Movie("./videos");
+        Movie movie = new Movie("./videos","Pelicula1");
         
         /* Console.WriteLine("Hello, World!");
         List<model.entitats.File> files = GetFitxers("./videos");
@@ -18,7 +18,7 @@ internal class Program
 
     private static void GetFrames(List<model.entitats.File> files)
     {
-        files[0].GetImatges();
+        //files[0].GetImatges();
     }
 
     private static List<model.entitats.File> GetFitxers(string path)

@@ -9,6 +9,11 @@ namespace model.entitats
             this.Files = SetFiles(path);
         }
 
+        public static void CreateDirectory(string path)
+        {
+            System.IO.Directory.CreateDirectory(path);
+        }
+        
         public static void Move(string path, string newPath)
         {
             System.IO.Directory.Move(path, newPath);
