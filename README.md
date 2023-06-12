@@ -9,6 +9,8 @@ rm packages-microsoft-prod.deb
 apt-get update && \
   apt-get install -y dotnet-sdk-7.0
 
+apt install dotnet-sdk-7.0
+
 # Creació aplicació
 Font: https://learn.microsoft.com/en-us/dotnet/standard/get-started#tutorials-for-creating-apps
 
