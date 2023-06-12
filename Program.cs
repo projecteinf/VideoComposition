@@ -1,13 +1,12 @@
 ﻿using model.entitats;
-using interfaces.graphics;
+
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        Player player = new Player("Player");
-
-        /*  Movie movie = new Movie("./videos","Pelicula1");
+        
+        Movie movie = new Movie("./videos","Pelicula1");
         /* Console.WriteLine("Hello, World!");
         List<model.entitats.File> files = GetFitxers("./videos");
         GetDadesFitxers(files); 

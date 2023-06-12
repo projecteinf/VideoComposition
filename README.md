@@ -1,8 +1,7 @@
-# Instal·lació GTKSharp
+# Instal·lació QT
 
-https://ksvi.mff.cuni.cz/~dingle/2022-3/prog_2/gtk_introduction.html
-
-dotnet add package GtkShar
+  dotnet nuget add source https://www.myget.org/F/qmlnet/api/v3/index.json -n qmlnet
+  dotnet add package Qml.Net
 
 # Instruccions instal·lació - Linux (Debian 11)
 
